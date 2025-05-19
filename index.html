@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>SoulSpace</title>
+
+
+    <style>
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+
+        }
+        .center-image{display: block;
+            margin:20px auto;
+            width:400px;
+            max-width:100%;
+        }
+        .word{display: block;
+        margin: 20px auto;
+        text-size-adjust: 1000px;
+        max-width: 100%;
+        text-align: center;
+
+
+    }
+
+    .affirmation-box{
+        position: fixed;
+        top: 65%;
+        right: 0;
+        background-color: #ffe6f0;
+        color: #333;
+        padding: 15px;
+        width: 220px;
+        border-radius: 10px 0 0 10px;
+        box-shadow: -2px 2px 10px rgba(0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+    }
+    .journal-container {
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  background-color: #ffe6f0;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#journalEntry {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+#saveJournalBtn {
+  margin-top: 10px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #ff99cc;
+  border: none;
+  border-radius: 6px;
+  color: white;
+}
+
+#saveJournalBtn:hover {
+  background-color: #ff66b2;
+}
+.journal-container {
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  background-color: #ffe6f0;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  background-color: pink;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff66b2;
+}
+
+#entriesList {
+  text-align: left;
+  margin-top: 20px;
+  background: #fff0f5;
+  padding: 10px;
+  border-radius: 6px;
+}
+    </style>
+</head>
+<body>
+  <h1 class="header"> 
+<span>SoulSpace🤍🍃</span>
+<span>Home🏠</span>
+<span>Journal📝</span>
+<span>Affirmations😊</span>
+<span>Mood check in🤔</span>
+
+  </h1>
+  <img src="https://s3.amazonaws.com/shecodesio-production/uploads/files/000/165/902/original/mental_health_matters.jpg?1747302705" alt="mental health matters" class="center-image"/>
+  <p class="word">Take a deep breath. This is a safe space ❤️🫂</p>
+
+  <br></br>
+
+  <strong class="mood">Mood check in</strong>
+  <p>How are you feeling today?</p>
+    
+<button onclick="selectMood('Happy')"  class="feelings">
+<span>😁happy</span>
+
+</button>
+<button onclick="selectMood('sad')"><span>😞sad</span>
+</button>
+<button onclick="selectMood('worried')"><span>😟worried</span>
+</button>
+<button onclick="selectMood('angry')"><span>😡angry</span>
+</button>
+<button onclick="selectMood('numb')"><span>😔numb</span>
+</button>
+<button onclick="selectMood('excited')"><span>😃excited</span></button>
+
+<div class="affirmation-box"><p id="affirmation"></p></div>
+<br></br>
+<strong class="thoughts">Journal📝</strong>
+
+
+<div class="journal-container">
+    <h2>Write how your day went</h2>
+    <textarea id="journalEntry" rows="6" cols="40" placeholder="Write here..."></textarea>
+    <br />
+    <button onclick="saveEntry()" id="saveJournalBtn">Save Entry</button>
+    <p id="saveMessage" style="color:green;"></p>
+    <h2>  View Past Enteries</h2>
+    <button onclick="showEnteries()">Show My Enteries</button>
+    <div id="entriesList"></div>
+    </div>
+    <br></br>
+
+    <Strong>Need help? You are not alone</Strong>
+    <p> Call SADAG at 0800 456 789 (free 24/7)</p>
+    <p> or SMS 31393 and they will call you back</p>
+    <p>visit www.sadag.org for more support</p>
+
+    <br></br>
+    <strong>Created by Karabo Thema🌸 <br></br> ‼️ Disclaimer this is not a substitute for therapy</strong>
+    
+
+
+    <script>
+        const affirmations =[
+        "I am worthy of love, rest, and peace🤍🍃",
+
+"My feelings are valid, and I give myself permission to feel them😌",
+
+"I don’t have to be perfect to be enough❤️",
+
+ "Today I choose progress over perfection💆‍♀️",
+
+"I am allowed to take up space and set boundaries🙅‍♀️",
+
+"Even on hard days, I am growing🌱",
+"Everyday is a fresh start 🌅",
+"You are stronger than your struggles 💪",
+"Take it one moment at a time ⌛",
+"Just do the next right thing ✅",
+"Im sorry that your naughty brain told you otherwise but you are doing a good job and you try hard enough and that is enough😘",
+"You can't choose what life throws at you but you can choose how you respond🤔",
+"Life is like a watermelon, sweet but you have to spit out the seeds🍉",
+"Popcorn is prepared in the same heat, oil and pot yet the kernels don't pop at the same time🍿",
+"No one is you and that is your superpower💪",
+"If there is no rain, there are no flowers💐",
+"Don't forget to read your bible and pray📖🙏",
+
+"God is with me in every season.",
+
+"I am learning, healing, and becoming.",
+
+"I inhale peace and exhale worry.",
+
+"I am proud of how far I’ve come.",
+      
+"I can do all things through Christ who strengthens me.” — Philippians 4: 13",
+
+"The Lord is my shepherd; I shall not want.” — Psalm 23: 1",
+
+"Be still, and know that I am God.” — Psalm 46: 10",
+
+"For I know the plans I have for you,” declares the Lord, “plans to prosper you and not to harm you, plans to give you hope and a future.” — Jeremiah 29: 11",
+
+"Cast all your anxiety on Him because He cares for you.” — 1 Peter 5: 7",
+
+"The joy of the Lord is your strength.” — Nehemiah 8: 10",
+
+"Trust in the Lord with all your heart and lean not on your own understanding.” — Proverbs 3: 5",
+
+"God is within her, she will not fall.” — Psalm 46: 5",
+
+"Come to me, all who are weary and burdened, and I will give you rest.” — Matthew 11: 28",
+
+"Peace I leave with you; my peace I give you.” — John 14: 27",
+     "I will not let the way they treat me change the way I treat others.",
+
+     "Their actions reflect them, not me.I remain kind.",
+
+
+" Being good to others is who I am, not a response to how I’m treated.",
+
+"I choose to respond with grace, not bitterness.",
+
+" My peace is more important than proving a point.",
+
+" I am soft, and that is my strength, not my weakness.",
+    ];
+    const today= new Date();
+    const start = new Date(today.getFullYear(), 0, 0);
+    const diff = today - start;
+    const oneDay =1000 *60 * 60 * 24;
+    const dayOfYear =Math.floor(diff/ oneDay);
+
+    const affirmationOfTheDay= affirmations[dayOfYear % affirmations.length];
+    const affirmationElement =document.getElementById ("affirmation");
+    if (affirmationElement){
+        affirmationElement.innerText=affirmationOfTheDay} else{
+            console.log("❌ The element with ID'affirmation' was not found!");
+        }
+        window.onload = function () {
+                const savedEntry = localStorage.getItem('journalEntry');
+                if (savedEntry) {
+                    document.getElementById('journalEntry').value = savedEntry;
+                }
+            };
+
+            
+            document.getElementById('saveJournalBtn').addEventListener('click', () => {
+                const Entry = document.getElementById('journalEntry').value.trim();
+                if (Entry) {
+                    localStorage.setItem('journalEntry', Entry);
+                    document.getElementById('saveMessage').innerText = "❤️Entry saved. A better tomorrow begins with this step🌅😚.";
+                    
+                    setTimeout(() => {
+                        document.getElementById('saveMessage').innerText = "";
+                    }, 2000);
+                } else {
+                    document.getElementById('saveMessage').innerText = "Cannot save an empty journal.";
+                    setTimeout(() => {
+                        document.getElementById('saveMessage').innerText = "";
+                    }, 2000);
+                }
+            });
+    
+            let selectedMood = "";
+            function selectMood(mood) {
+            selectedMood=mood;
+                    switch (mood) {
+                        case "Happy":
+                            alert("That's wonderful! 😊 Treasure this moment. Reflect on what made today feel so good — and how you can invite more of it into your life. You deserve joy.");
+                            break;
+                        case "sad":
+                            alert("I'm sorry you're feeling this way 💔. Sadness is a valid emotion — give yourself space to feel without judgment. Journaling can help lighten the weight. You're not alone.");
+                            break;
+                        case "worried":
+                            alert("Worry often comes from caring deeply or facing uncertainty 😟. Take a deep breath — you're doing the best you can. Let your journal be a safe space to explore what’s on your heart.");
+                            break;
+                        case "angry":
+                            alert("Anger is valid too 😤. Take a few deep breaths — and try to find what’s underneath the frustration. Writing it down might bring clarity.");
+                            break;
+                        case "numb":
+                            alert("Feeling numb doesn’t mean you’re broken. You might just be emotionally exhausted 🧠. Let your journal hold what you can’t put into words yet.");
+                            break;
+                        case "excited":
+                            alert("Yay! 🎉 That’s beautiful. What’s bringing this joy? Celebrate it and write it down — joy loves to be remembered.");
+                            break;
+                        default:
+                            alert("Thanks for checking in.");
+                    }
+                }
+                
+                let moodbutton =document.querySelector("button");
+                moodbutton.addEventListener("click",mood);
+                function saveEntry() {
+                    const Entry= document.getElementById('journalEntry').value.trim(); if (!entry) return;
+                    
+
+                    if (!selectedMood || !journal) {
+                        document.getElementById("saveMessage").innerText = "Please select a mood and write your journal.";
+                        return;
+                    }
+
+                    const entry = {
+                        date: date,
+                        mood: selectedMood,
+                        journal: journal
+                    };
+                    let entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+                    const timestamp= new Date(). toLocalString();
+                    entries.push({ text: entry, time : timestamp });
+                            localStorage.setItem('journalEntries', JSON.stringify(entries));
+
+                            
+                            document.getElementById('saveMessage').innerText = "Entry saved. A better tomorrow begins with this step";
+                            document.getElementById('journalEntry').value = "";
+                            selectedMood = ""; 
+
+                            checkForConcerningWords(entry); {
+                                alert("⚠️ It seems your entry contains phrases that may indicate you're struggling, you are not alone🫂. Please consider reaching out to a trusted friend, professional or Call SADAG at 0800 456 789.");
+                            }
+                        }
+
+                        function showEnteries() {
+                            const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+                            const entriesList = document.getElementById ('entriesList');
+                            const container =document.getElementById("entriesList")
+                            entriesList.innerHTML ="";
+                            
+
+                            if (entries.length === 0) {
+                                container.innerHTML = "<p>No entries yet.</p>";
+                                return;
+                            }
+                            entries.forEach(entry => {
+                                const p = document.createElement('p');
+                                p.innerHTML = `<strong>${entry.time}</strong><br>${entry.text}<br><br>`;
+                                entriesList.appendChild(p);
+                            });
+                            container.innerHTML = entries.map(entry => `
+    <div>
+      <strong>${entry.date}</strong><br>
+      Mood: ${entry.mood}<br>
+      Journal: ${entry.journal}<hr>
+    </div>
+  `).join("");
+                        }
+                            function checkForWarning(text) {
+                        const redflags = ["suicidal","hopeless","worthless","give up","end it all",
+                                "i feel hopeless",
+                                "i want to disappear",
+                                "I want to die",
+                                "I feel like jumping off a clif",
+                                "I feel like being hit ",
+                                "i can't take this anymore",
+                                "nothing matters",
+                                "i don't want to be here",
+                                "i feel empty",
+                                "what's the point",
+                                "i hate myself",
+                                "no one cares",
+                                "i'm so tired of everything"
+                            ];
+                                 const lowerText=text.toLowerCase();
+                                 return redFlags.some(flag => lowerText.includes(flag));
+                                                               
+
+                                if (foundRedFlag) {
+                                    alert("⚠️ It seems your entry contains phrases that may indicate you're struggling. You are not alone🫂. Please consider reaching out to a trusted friend, professional or call SADAG at 0800 456 789.");
+                                }
+              
+
+                                function handleJournalEntry() {
+                                    const entry=document.getElementById("journal").value;
+                                    if (checkForWarning(entry)) {                                         alert("⚠️ It seems your entry contains phrases that may indicate you're struggling. You are not alone🫂. Please consider reaching out to a trusted friend, professional or call SADAG at 0800 456 789.");
+                                    
+                                    } else {
+                                        saveEntry(entry); // your normal save function
+                                    }
+                                }
+
+                                function showWarning() {
+                                    alert("⚠️ It seems your entry contains phrases that may indicate you're struggling. You are not alone🫂. Please consider reaching out to a trusted friend, professional or call SADAG at 0800 456 789.");
+                                }
+
+
+                             // List of red flag keywords to look for in the journal entry
+                                const redFlags = ['sad', 'depressed', 'hopeless', 'suicide', 'anxious', 'struggle', 'help'];
+
+                                function saveEntry() {
+                                    const entry = document.getElementById('journalEntry').value.trim().toLowerCase();
+                                    if (!entry) {
+                                        alert('Please write something before saving.');
+                                        return;
+                                    }
+
+                                    // Check if any red flag word appears in the entry
+                                    const foundFlags = redFlags.filter(flag => entry.includes(flag));
+                                    if (foundFlags.length > 0) {
+                                        alert('⚠️ Warning: Your journal entry contains concerning words. Please consider reaching out for support.');
+                                    }
+
+                                    // Save entry to localStorage or handle as needed
+                                    localStorage.setItem('journalEntry', entry);
+                                    document.getElementById('saveMessage').innerText = "Entry saved successfully.";
+                                    document.getElementById('journalEntry').value = '';
+                                }
+
+                            document.getElementById("saveButton").addEventListener("click", function () {
+                                const journalEntry = document.getElementById("journal").value;
+
+                                if (checkForConcerningContent(journalEntry)) {
+                                   
+                                    document.getElementById("helpModal").style.display = "block";
+                                } else {
+                                    
+                                    alert("❤️Entry saved. A better tomorrow begins with this step🌅😚");
+                                }
+                            });
+                        }
+    </script>
+</body>
+</html>
